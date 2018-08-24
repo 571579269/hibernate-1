@@ -9,8 +9,16 @@
     Transaction transaction = session.beginTransaction();//创建事务并开启
     //transaction = session.getTransanction()//开启事务
     Student s = new Stident(null,"","");
+    //=============CRUD============
     session.save(s);//执行保存
+    session.get(Student.class,1);//第一个参数是找的类型，第二个参数是查询的id
+    //修改步骤 1、获得要修改的对象  2、修改   3、执行update
+    Student s = session.get(Student.class,1);
+    s.setName("aa")
+    session.update(s);
+    //=========================
     transaction.commit();
+    //transaction.rollback();事务回滚
     session.close();
     sessionFactory.close();
 ```
