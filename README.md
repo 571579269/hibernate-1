@@ -8,7 +8,7 @@
     //sf.getCurrentSession();获得一个与线程绑定的session对象，同一个
     Transaction transaction = session.beginTransaction();//创建事务并开启
     //transaction = session.getTransanction()//开启事务
-    Student s = new Stident(null,"","");
+    Student s = new Student(null,"","");
     //=============CRUD============
     session.save(s);//执行保存
     session.get(Student.class,1);//第一个参数是找的类型，第二个参数是查询的id
@@ -25,3 +25,13 @@
     session.close();
     sessionFactory.close();
 ```
+    generator:主键生成策略：每条记录录入时，主键的生成规则
+        identity:主键自增<generator class="identity"/>
+        uuid：产生随机字符串作为主键
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	JPA提供的四种标准用法为TABLE,SEQUENCE,IDENTITY,AUTO. 
+	TABLE：使用一个特定的数据库表格来保存主键。 
+	SEQUENCE：根据底层数据库的序列来生成主键，条件是数据库支持序列。 
+	IDENTITY：主键由数据库自动生成（主要是自动增长型） 
+	AUTO：主键由程序控制。
+    
