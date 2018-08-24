@@ -51,7 +51,8 @@
     		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
     		
     		<!--                 <prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop> -->
-    		<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop><!-- 配置线程 hibernate提供sessionFactory.getCurrentSession()创建一个session和ThreadLocal绑定方法-->
+    		<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop><!-- 配置线程 hibernate提供sessionFactory.getCurrentSession()创建一个session和ThreadLocal绑定方法，这样获取
+		 的session可以不用关闭当线程结束后会自动关闭-->
 		<!-- 开启二级缓存 -->
     		<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
     		<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
