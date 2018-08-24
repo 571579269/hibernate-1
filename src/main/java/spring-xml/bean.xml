@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+<context:annotation-config></context:annotation-config>
+<context:component-scan base-package="com.*">
+</context:component-scan>
+<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">  
+            <list>  
+                <value>com/config/init.properties</value>  
+            </list>  
+        </property>  
+    </bean>  
+    <!-- 配置数据源c3p0 -->
+    <bean id="PoolDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    	<property name="driverClass" value="${jdbc.driverClass}"></property>
+    	<property name="jdbcUrl" value="${jdbc.url}"></property>
+    	<property name="user" value="${jdbc.user}"></property>
+    	<property name="password" value="${jdbc.password}"></property>
+    <!-- 请求超时时间 -->
+    	<property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"></property>
+    <!-- 每60秒检查所有连接池中的空闲连接，默认值为0 不检查 -->
+    	<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"></property>
+    <!-- 连接数据库连接池最大空闲时间 -->
+    	<property name="maxIdleTime" value="${jdbc.maxIdleTime}"></property>
+    <!-- 连接池初始化连接数 -->
+    	<property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>
+    	<property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
+    	<property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+    <!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数，默认值：3 -->
+    	<property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>
+    </bean>
+    
+    
+    <!-- session工厂 -->
+    <bean id="localSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+   	<property name="dataSource" ref="PoolDataSource"></property>
+    <!-- 配置hibernate -->
+    <property name="hibernateProperties">
+    	<props>
+    		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+    		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+    		<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+    		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+    		
+    		<!--                 <prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop> -->
+    		<!-- 开启二级缓存 -->
+    		<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+    		<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+    		<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+    		<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.cache.provider_configuration_file_resource_path}</prop>
+    	</props>
+    </property>
+    <property name="packagesToScan" value="com.bean"></property>
+    </bean>
+    
+    <!-- session工厂建立 与 连接池 方便管理-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="localSessionFactory"></property>
+    	<property name="dataSource" ref="PoolDataSource"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+     <!--hibernateTemplate的配置-->
+     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+     <property name="sessionFactory" ref="localSessionFactory"></property>
+     </bean>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</beans>
