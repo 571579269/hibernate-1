@@ -1,6 +1,6 @@
 # hibernate-1
 ##本例子中由后台完成的session创建的过程
-````Java
+```Java
     Configuration conf = new Configuration();
     conf.configure()//这个是自动扫描src下面的hibernate.cfg.xml文件或者可以自己指定扫描目录
     SessionFactory sf = conf.buildSessionFactory();//用于创建操作数据库session对象的工厂
@@ -16,9 +16,12 @@
     Student s = session.get(Student.class,1);
     s.setName("aa")
     session.update(s);
+    //删除步骤 1、先获取 2、删除
+    Student s = session.get(Student.class,1);
+    session.delete(s);
     //=========================
     transaction.commit();
     //transaction.rollback();事务回滚
     session.close();
     sessionFactory.close();
-````
+```
