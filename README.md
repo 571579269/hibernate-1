@@ -1,6 +1,6 @@
 # hibernate-1
 ##本例子中由后台完成的session创建的过程
-    
+```java
     Configuration conf = new Configuration();
     conf.configure()//这个是自动扫描src下面的hibernate.cfg.xml文件或者可以自己指定扫描目录
     SessionFactory sf = conf.buildSessionFactory();//用于创建操作数据库session对象的工厂
@@ -13,3 +13,4 @@
     transaction.commit();
     session.close();
     sessionFactory.close();
+```
