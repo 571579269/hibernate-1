@@ -46,18 +46,18 @@
     5、调用Query对象的list()或uniqueResult()方法执行查询
     	uniqueResult()方法，用于返回唯一的结果，只有在确保只有一条记录时使用
     
-    ```Java
+```Java
     //查询所有记录
     Query query = session.createQuery("from Student");
     List<Student> list = query.list();
     System.out.println(list);
     //条件查询
-    Query query = session.createQuery("from Student where name=?");
+    Query query = session.createQuery("from Student where name=?");//问号占位符
     query.setString(0,"张三");
     List<Student> list = query.list();
     System.out.println(list);
     
-    Query query = session.createQuery("from Student where name=:aaa and age=:bbb");
+    Query query = session.createQuery("from Student where name=:aaa and age=:bbb");//命名占位符
     query.setString("aaa","张三");
     query.setString("bbb",38);
     List<Student> list = query.list();
@@ -69,7 +69,7 @@
     query.setMaxResult(3);//设置结果集中的最大记录数，
     List<Student> list = query.list();
     System.out.println(list);
-    ```
+```
     Criteria--核心查询对象
     ====
     使用步骤：
@@ -79,7 +79,7 @@
     每个Criterion实例代表一个查询条件
     4、想Criteria对象中添加Criterion查询条件，Criteria的add()方法用于加入查询条件
     5、执行Criteria的list()或uniqueResult()获得结果
-    ```java
+```Java
     //查询所有记录
     Criteria criteria = session.createCriteria(Student.class);
     List<Student> list = criteria.list();
@@ -103,7 +103,7 @@
     criteria.setMaxResult(3);//设置结果集中的最大记录数，
     List<Student> list = criteria.list();
     System.out.println(list);
-    ```
+```
     SQLQuery 语句  直接使用sql查询语句
     SQLQuery sqlQuery = session.createSQLQuery("select * from Student_t");
     List<Object[]> list = sqlQuery.list();
